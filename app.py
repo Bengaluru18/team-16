@@ -101,7 +101,7 @@ def inputform():
     except:
         status = 500
         message = "Unable to add data. Please try again."
-    return jsonify({"status": status, "message", message})
+        return jsonify({"status": status, "message": message})
 
 
 @app.route('/getschools', methods=['POST'])
@@ -143,7 +143,7 @@ def addtask():
     return jsonify({'status': status, 'message': message})
 
 
-@app.route(/logout, methods=['POST'])
+@app.route('/logout', methods=['POST'])
 def logout():
 
     """
@@ -158,6 +158,7 @@ def logout():
         status = 500
         message = "There was an error. Please try again later."
     return jsonify({'status': status, 'message': message})
+
 
 if __name__ == "__main__":
       app.run(host='0.0.0.0', port=3000, debug=True)
