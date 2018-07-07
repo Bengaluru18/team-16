@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">CWF</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">login</string>
+    <string name="not_registered">Not Registered?</string>
+    <string name="register">Register</string>
+    <string name="name">Name</string>
+
+    <string name="confirm_password">confirm_password</string>
+    <string name="cancel">cancel</string>
+    <string name="emp_id">Emp Id</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="submit">Submit</string>
+
+</resources>
