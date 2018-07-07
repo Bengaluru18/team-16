@@ -10,6 +10,12 @@ app = Flask(__name__)
 client = MongoClient()
 db = client['cwf']
 
+
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({"Status": 200, "Message": "Connected"})
+
+
 @app.route('/signup', methods=['POST'])
 def signup():
     print (request.json)
@@ -72,4 +78,4 @@ def inputform():
 """
 
 if __name__ == "__main__":
-    app.run(debug=True)
+      app.run(host='0.0.0.0', port=3000, debug=True)
