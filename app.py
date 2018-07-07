@@ -101,8 +101,14 @@ def getschools():
     """
     function to return the name and id of all approved schools
     """
-    schools = list(db['schools'].find({'approved': True}, {'school_name': 1, '_id': 1}))
-    return jsonify({'data': schools})
+    try:
+        schools = list(db['schools'].find({'approved': True}, {'school_name': 1, '_id': 1}))
+        status = 200
+        message = "Successfully retreived data about schools."
+    except:
+        status = 500
+        message = "Unable to retreive data. Please try again"
+    return jsonify({'status': status, 'message': message, 'data': schools})
 
 
 @app.route('/addtask', methods=['POST'])
@@ -118,7 +124,6 @@ def addtask():
     for i in req.keys():
         if i != 'school_id' and i != 'token':
             tasks[i] = req[i][0]
-
     try:
         db['schools'].update({"_id": ObjectId(school_id)}, {'$set': {'task': tasks}})
         status = 200
