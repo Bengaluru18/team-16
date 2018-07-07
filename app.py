@@ -36,7 +36,7 @@ def signup():
     """
     function to add a user
     """
-    req = request.args.to_dict(flat=False)
+    req = request.form.to_dict(flat=False)
     db['users'].insert_one({"name": req['name'][0],
                             "password": hashlib.md5(
                                 req['password'][0].encode()).hexdigest(),
