@@ -37,17 +37,13 @@ def signup():
     function to add a user
     """
     req = request.args.to_dict(flat=False)
-    try:
-        db['users'].insert_one({"name": req['name'][0],
-                                "password": hashlib.md5(
-                                    req['password'][0].encode()).hexdigest(),
-                                "employee_id": req['employee_id'][0],
-                                "email": req['email'][0]})
-        status = 200
-        message = "Successfully added user."
-    except:
-        status = 500
-        message = "Unable to register user. Please try again later"
+    db['users'].insert_one({"name": req['name'][0],
+                            "password": hashlib.md5(
+                                req['password'][0].encode()).hexdigest(),
+                            "employee_id": req['employee_id'][0],
+                            "email": req['email'][0]})
+    status = 200
+    message = "Successfully added user."
     return jsonify({'status': status, 'message': message})
 
 
