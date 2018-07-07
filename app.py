@@ -84,15 +84,20 @@ def inputform():
     token = req['token'][0]
     emp_id = untokenize(token)
 
-    data = dict()
-    #make data as json
-    for i in req.keys():
-        if i != 'school_name' and i != 'token':
-            data[i] = req[i][0]
-    data['approval'] = False
-    data['task'] = {}
-    db['schools'].insert_one(data)
-    return jsonify({"status": 200})
+    try:
+        data = dict()
+        for i in req.keys():
+            if i != 'school_name' and i != 'token':
+                data[i] = req[i][0]
+        data['approval'] = False
+        data['task'] = {}
+        db['schools'].insert_one(data)
+        status = 200
+        message = "Successully added data."
+    except:
+        status = 500
+        message = "Unable to add data. Please try again."
+    return jsonify({"status": status, "message", message})
 
 
 @app.route('/getschools', methods=['POST'])
