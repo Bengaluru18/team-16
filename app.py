@@ -1,5 +1,6 @@
 from modules import *
 
+
 app = Flask(__name__)
 
 
@@ -36,15 +37,18 @@ def signup():
     function to add a user
     """
     req = request.args.to_dict(flat=False)
-    print (req)
-    db['users'].insert_one({"name": req['name'][0],
-                            "password": hashlib.md5(
-                                req['password'][0].encode()).hexdigest(),
-                            "employee_id": req['employee_id'][0],
-                            "email": req['email'][0]})
-    status = 200
-    message = "Successfully added user."
-    return jsonify({status: message})
+    try:
+        db['users'].insert_one({"name": req['name'][0],
+                                "password": hashlib.md5(
+                                    req['password'][0].encode()).hexdigest(),
+                                "employee_id": req['employee_id'][0],
+                                "email": req['email'][0]})
+        status = 200
+        message = "Successfully added user."
+    except:
+        status = 500
+        message = "Unable to register user. Please try again later"
+    return jsonify({'status': status, 'message': message})
 
 
 @app.route('/login', methods=['POST'])
@@ -60,7 +64,7 @@ def login():
 
     user_cred = db['users'].find_one({'employee_id': str(emp_id), 'password': hash_password})
 
-    #if the user exists in the database
+    #if the user exists in the database and the password is correct
     if user_cred != None:
             token = tokenize(user_cred['_id'])
             db['logged_in_users'].insert_one({'employee_id': emp_id, 'token': token})
