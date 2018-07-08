@@ -53,7 +53,7 @@ def login():
     """
     function to authenticate and login a user
     """
-    req = request.args.to_dict(flat=False)
+    req = request.form.to_dict(flat=False)
     emp_id = req['employee_id'][0]
     password = req['password'][0]
     hash_password = hashlib.md5(password.encode()).hexdigest()
@@ -79,7 +79,7 @@ def inputform():
     """
     function to accept form data from field
     """
-    req = request.args.to_dict(flat=False)
+    req = request.form.to_dict(flat=False)
     school_id = req['school_name'][0]
     token = req['token'][0]
     emp_id = untokenize(token)
@@ -87,7 +87,7 @@ def inputform():
     try:
         data = dict()
         for i in req.keys():
-            if i != 'school_name' and i != 'token':
+            if i != 'token':
                 data[i] = req[i][0]
         data['approval'] = False
         data['task'] = {}
@@ -97,7 +97,7 @@ def inputform():
     except:
         status = 500
         message = "Unable to add data. Please try again."
-        return jsonify({"status": status, "message": message})
+    return jsonify({"status": status, "message": message})
 
 
 @app.route('/getschools', methods=['POST'])
@@ -122,7 +122,7 @@ def addtask():
     """
     function to add task to the action plan
     """
-    req = request.args.to_dict(flat=False)
+    req = request.form.to_dict(flat=False)
     school_id = req['school_id'][0]
     token = req['token'][0]
     tasks = dict()
@@ -145,7 +145,7 @@ def logout():
     """
     function to delete token from database and logout
     """
-    token = request.args.to_dict(flat=False)['token'][0]
+    token = request.form.to_dict(flat=False)['token'][0]
     try:
         db['logged_in_users'].remove({'token': token})
         status = 200
